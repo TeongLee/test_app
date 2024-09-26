@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "498210949236",
+    "project_id": "teonglee-first-project",
+    "storage_bucket": "teonglee-first-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:498210949236:android:a0fd3c45cb5ed4eb212921",
+        "android_client_info": {
+          "package_name": "com.example.test_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJPJ8hQmOTMQxGqR_l_T7J-o9KYH_ao0U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
