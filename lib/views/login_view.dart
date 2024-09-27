@@ -1,8 +1,5 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:test_app/firebase_options.dart';
-
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -13,17 +10,20 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
 
+  //create the variables needed for login with class "TextEditingController"
   //late data type - a variable that promise to assign value later
   late final TextEditingController _email;
   late final TextEditingController _password;
 
+  // 2. Initializion - creating two instance of TextEditingController
   @override
-  void initState() {
+  void initState() { 
     _email = TextEditingController();
     _password = TextEditingController();
     super.initState();
   }
 
+  //4. Dispose - dispose when the widget is removed from the widget tree (no longer in use)
   @override
   void dispose() {
     _email.dispose();
@@ -37,68 +37,67 @@ class _LoginViewState extends State<LoginView> {
       appBar: AppBar(
         title: const Text('Login'),
       ),
-      body: FutureBuilder(
-        future: Firebase.initializeApp(
-                    options: DefaultFirebaseOptions.currentPlatform,
-                  ),
-        builder: (context, snapshot) {
-          switch(snapshot.connectionState){
-          case ConnectionState.done:
-            return Column(
-              children: [
-              TextField(
-                controller: _email,
-                enableSuggestions: false,
-                autocorrect: false,
-                keyboardType: TextInputType.emailAddress,
-                decoration: const InputDecoration(
-                  hintText: 'Enter email'
-                ),
-              ),
-              TextField(
-                controller: _password,
-                obscureText: true,
-                enableSuggestions: false,
-                autocorrect: false,
-                decoration: const InputDecoration(
-                  hintText: 'Enter password'
-                ),
-              ),
-              TextButton(
-                onPressed: () async {
-                  final email = _email.text;
-                  final password = _password.text;
-                  try {
-                     final userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
-                    print(userCredential);
-                  } on FirebaseAuthException catch (e){
-                    if (e.code == 'user-not-found') {
-                      print('No user found for that email.');
-                      // You can show a message to the user or handle the error as needed
-                    } else if (e.code == 'wrong-password') {
-                      print('Wrong password provided for that user.');
-                      // Show error message or handle the error
-                    } else if (e.code == 'invalid-email') {
-                      print('The email address is badly formatted.');
-                      // Handle the invalid email format
-                    } else if (e.code == 'user-disabled') {
-                      print('The user has been disabled.');
-                      // Handle the disabled user case
-                    } else {
-                      // Generic error message
-                      print('Something went wrong: ${e.message}');
-                    }
-                  }
-                },
-                child: const Text('Login'),),
-              ],
-            );
-
-            default:
-              return const Text('Loading....');
-          }
-        },
-      ),
+      body: Column(
+        //3. Using the controller in text field widgets
+      children: [
+        TextField(
+          controller: _email, //here 
+          enableSuggestions: false,
+          autocorrect: false,
+          keyboardType: TextInputType.emailAddress,
+          decoration: const InputDecoration(
+            hintText: 'Enter email'
+          ),
+        ),
+        TextField(
+          controller: _password, //here
+          obscureText: true,
+          enableSuggestions: false,
+          autocorrect: false,
+          decoration: const InputDecoration(
+            hintText: 'Enter password'
+          ),
+        ),
+        TextButton(
+          onPressed: () async {
+            final email = _email.text;
+            final password = _password.text;
+            try {
+                final userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+              print(userCredential);
+            } on FirebaseAuthException catch (e){
+              if (e.code == 'user-not-found') {
+                print('No user found for that email.');
+                // You can show a message to the user or handle the error as needed
+              } else if (e.code == 'wrong-password') {
+                print('Wrong password provided for that user.');
+                // Show error message or handle the error
+              } else if (e.code == 'invalid-email') {
+                print('The email address is badly formatted.');
+                // Handle the invalid email format
+              } else if (e.code == 'user-disabled') {
+                print('The user has been disabled.');
+                // Handle the disabled user case
+              } else {
+                // Generic error message
+                print('Something went wrong: ${e.message}');
+              }
+            }
+          },
+          child: const Text('Login'),
+        ),
+        TextButton(onPressed: (){
+          Navigator.of(context).pushNamedAndRemoveUntil(
+        '/register/', 
+        (route) => false,  // Removes all previous routes
+        );
+        }, child: const Text('Not registered yet? Registered here!')),
+      ],
+      
+      
+      
+        
+        ),
     );
-  }
+}
 }
