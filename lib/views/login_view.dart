@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:developer' as devtools show log;
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -63,24 +64,27 @@ class _LoginViewState extends State<LoginView> {
             final email = _email.text;
             final password = _password.text;
             try {
-                final userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
-              print(userCredential);
+              await FirebaseAuth.instance.signInWithEmailAndPassword(
+                email: email, 
+                password: password,
+              );
+              Navigator.of(context).pushNamedAndRemoveUntil('/notes/', (route) => false);
             } on FirebaseAuthException catch (e){
               if (e.code == 'user-not-found') {
-                print('No user found for that email.');
+                devtools.log('No user found for that email.');
                 // You can show a message to the user or handle the error as needed
               } else if (e.code == 'wrong-password') {
-                print('Wrong password provided for that user.');
+                devtools.log('Wrong password provided for that user.');
                 // Show error message or handle the error
               } else if (e.code == 'invalid-email') {
-                print('The email address is badly formatted.');
+                devtools.log('The email address is badly formatted.');
                 // Handle the invalid email format
               } else if (e.code == 'user-disabled') {
-                print('The user has been disabled.');
+                devtools.log('The user has been disabled.');
                 // Handle the disabled user case
               } else {
                 // Generic error message
-                print('Something went wrong: ${e.message}');
+                devtools.log('Something went wrong: ${e.message}');
               }
             }
           },
