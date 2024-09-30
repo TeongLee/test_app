@@ -21,7 +21,8 @@ void main() {
       routes: {
         loginRoute: (context) => const LoginView(),
         registerRoute : (context) => const RegisterView(),
-        notesRoutes : (context) => const NotesView()
+        notesRoutes : (context) => const NotesView(),
+        VerifyEmailRoutes : (context) => const VerifyEmailView()
       },
     ),);
 }
@@ -125,6 +126,12 @@ Future<bool> showLogOutDialog(BuildContext context){
 }
 
 
+
+
+//enumeration
+// enum Person {
+//  firstName, lastName, gender, age
+//}
 
 
 // void test() async{

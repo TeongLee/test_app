@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'dart:developer' as devtools show log;
-
 import 'package:test_app/constants/routes.dart';
+import 'package:test_app/utilities/show_error_dialog.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -73,21 +72,20 @@ class _LoginViewState extends State<LoginView> {
               Navigator.of(context).pushNamedAndRemoveUntil(notesRoutes, (route) => false);
             } on FirebaseAuthException catch (e){
               if (e.code == 'user-not-found') {
-                devtools.log('No user found for that email.');
+                await showErrorDialog(context, 'User not found',);
                 // You can show a message to the user or handle the error as needed
               } else if (e.code == 'wrong-password') {
-                devtools.log('Wrong password provided for that user.');
+                await showErrorDialog(context, 'Wrong credentials',);
                 // Show error message or handle the error
               } else if (e.code == 'invalid-email') {
-                devtools.log('The email address is badly formatted.');
+                await showErrorDialog(context, 'Invalid email',);
                 // Handle the invalid email format
-              } else if (e.code == 'user-disabled') {
-                devtools.log('The user has been disabled.');
-                // Handle the disabled user case
-              } else {
+              }else {
                 // Generic error message
-                devtools.log('Something went wrong: ${e.message}');
+                await showErrorDialog(context, 'Error: ${e.code}',);
               }
+            } catch (e){
+              await showErrorDialog(context, e.toString(),);
             }
           },
           child: const Text('Login'),
@@ -99,8 +97,6 @@ class _LoginViewState extends State<LoginView> {
         );
         }, child: const Text('Not registered yet? Registered here!')),
       ],
-      
-      
       
         
         ),
