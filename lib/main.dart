@@ -9,6 +9,7 @@ import 'package:test_app/views/verify_email_view.dart';
 // import 'dart:developer' as devtools show log;
 
 
+
 //Learning asynchronous operation (stream and future)
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -172,4 +173,32 @@ Future<bool> showLogOutDialog(BuildContext context){
 //   Pair(this.value1,  this.value2);
 // }
 
+//Factory constructor
+// class Animal {
+//   final String name;
 
+//   Animal(this.name); // Regular constructor
+
+//   // Factory constructor
+//   factory Animal.createAnimal(String name) {
+//     if (name == 'Dog') {
+//       return Animal('Dog');  // Create an Animal named Dog
+//     } else if (name == 'Cat') {
+//       return Animal('Cat');  // Create an Animal named Cat
+//     } else {
+//       return Animal('Unknown');  // Default to Unknown
+//     }
+//   }
+// }
+
+// void main() {
+//   Animal dog = Animal.createAnimal('Dog');
+//   Animal cat = Animal.createAnimal('Cat');
+//   Animal bird = Animal.createAnimal('Bird');
+//   Animal bunny = Animal('Bunny');
+
+//   print(dog.name);  // Output: Dog
+//   print(cat.name);  // Output: Cat
+//   print(bird.name); // Output: Unknown
+//   print(bunny.name); //Output: Bunny
+// }
