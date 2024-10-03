@@ -1,9 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:test_app/constants/routes.dart';
-import 'package:test_app/firebase_options.dart';
+import 'package:test_app/services/auth/auth_service.dart';
 import 'package:test_app/views/login_view.dart';
+import 'package:test_app/views/notes_view.dart';
 import 'package:test_app/views/register_view.dart';
 import 'package:test_app/views/verify_email_view.dart';
 // import 'dart:developer' as devtools show log;
@@ -23,7 +22,7 @@ void main() {
         loginRoute: (context) => const LoginView(),
         registerRoute : (context) => const RegisterView(),
         notesRoutes : (context) => const NotesView(),
-        VerifyEmailRoutes : (context) => const VerifyEmailView()
+        verifyEmailRoutes : (context) => const VerifyEmailView()
       },
     ),);
 }
@@ -34,16 +33,14 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: Firebase.initializeApp(
-                    options: DefaultFirebaseOptions.currentPlatform,
-                  ),
+        future: AuthService.firebase().initialize(),
         builder: (context, snapshot) {
           switch (snapshot.connectionState){
           case ConnectionState.done:
-            final user = FirebaseAuth.instance.currentUser;
+            final user = AuthService.firebase().currentUser;
 
             if (user != null){
-              if(user.emailVerified){
+              if(user.isEmailVerified){
                 return const NotesView();
               }else{
                 return const VerifyEmailView();
@@ -59,89 +56,23 @@ class HomePage extends StatelessWidget {
   }
 }
 
-enum MenuAction {
-  logout
-}
 
-// To create the Main UI of the application
-class NotesView extends StatefulWidget {
-  const NotesView({super.key});
-
-  @override
-  State<NotesView> createState() => _NotesViewState();
-}
-
-class _NotesViewState extends State<NotesView> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Main UI'),
-        actions: [
-          PopupMenuButton<MenuAction>(
-            onSelected: (value) async {
-              switch (value) {
-                case MenuAction.logout:
-                  final shouldLogout = await showLogOutDialog(context);
-                  if (shouldLogout){
-                    await FirebaseAuth.instance.signOut();
-                    Navigator.of(context).pushNamedAndRemoveUntil(loginRoute, (route)=>false);
-                  }
-                  break;
-              }
-            },
-            itemBuilder: (context) {
-              return const [
-                PopupMenuItem<MenuAction>(
-                  value: MenuAction.logout,
-                  child: Text('Log Out'),
-                ),
-              ];
-            },
-          ),
-        ],
-      ),
-      body: const Text('Hello World'),
-    );
-  }
-}
-
-Future<bool> showLogOutDialog(BuildContext context){
-  return showDialog<bool>(context: context, builder: (context) {
-    return AlertDialog(
-      title: const Text('Sign out'),
-      content: const Text('Are you sure you want to sign out?'),
-      actions: [
-        TextButton(onPressed: (){
-          Navigator.of(context).pop(false);
-        }, child: const Text('Cancel'),
-        ),
-
-        TextButton(onPressed: (){
-          Navigator.of(context).pop(true);
-        }, child: const Text('Log out'),
-        )
-      ],
-    );
-  },).then((value)=>value?? false);
-}
-
-
-
-
-//enumeration
+//Basic Notes
+//////////////////////////////////
+//Enumeration
 // enum Person {
 //  firstName, lastName, gender, age
 //}
 
-
+///////////////////////////
+//Asychronization
 // void test() async{
-//   // final result = await futureFunction(10);
-//   // print(result);
+// final result = await futureFunction(10);
+// print(result);
 
-//   // await for ( final value in getName()){
-//   //   print(value);
-//   // }
+// await for ( final value in getName()){
+//   print(value);
+// }
 
 //   for (final value in getOneTwoThree()){
 //     print(value);
@@ -151,28 +82,37 @@ Future<bool> showLogOutDialog(BuildContext context){
 //   print(names);
 // }
 
+
+////////////////////////////////////////////
+// Future Function
 // Future<int> futureFunction(int a){
 //   return Future.delayed(const Duration(seconds: 3),()=>a*2);
 // }
 
+////////////////////////////////////////////
+//Stream
 // Stream<String> getName() {
 //   // return Stream.value('Ali');
 //   return Stream.periodic(const Duration(seconds: 1),(value)=>'Foo');
 // }
 
-// //Generators function
+////////////////////////////////////////////
+//Generators function
 // Iterable<int> getOneTwoThree() sync* {
 //   yield 1;
 //   yield 2;
 // }
 
-// // Generics - to avoid re-writting similar code
+
+//////////////////////////////////////////////////
+// Generics - to avoid re-writting similar code
 // class Pair<A,B>{
 //   final A value1;
 //   final B value2;
 //   Pair(this.value1,  this.value2);
 // }
 
+///////////////////////////////////////////////
 //Factory constructor
 // class Animal {
 //   final String name;

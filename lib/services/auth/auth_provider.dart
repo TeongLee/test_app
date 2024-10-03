@@ -4,6 +4,7 @@ import 'package:test_app/services/auth/auth_user.dart';
 //different type of auth provider (eg:Google, Apple...)
 
 abstract class AuthProvider { //show what can be performed by auth provider
+  Future <void> initialize();
   AuthUser? get currentUser;
   Future<AuthUser> logIn({
     required String email,
