@@ -40,7 +40,8 @@ dependencies:
   firebase_analytics: ^11.3.2
   firebase_auth: ^5.3.0
 
-dev_dependencies:
+# Dependencies that does not comes with appilcation after the application is developed
+dev_dependencies: 
   flutter_test:
     sdk: flutter
 
@@ -50,6 +51,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.想·
   flutter_lints: ^4.0.0
+  test: ^1.25.7
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
