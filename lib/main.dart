@@ -56,7 +56,6 @@ class HomePage extends StatelessWidget {
   }
 }
 
-
 //Basic Notes
 //////////////////////////////////
 //Enumeration
