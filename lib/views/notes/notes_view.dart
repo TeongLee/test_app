@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:test_app/constants/routes.dart';
 import 'package:test_app/enums/menu_action.dart';
@@ -40,8 +42,15 @@ class _NotesViewState extends State<NotesView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Main UI'),
+        title: const Text('Your Notes'),
         actions: [
+          IconButton(
+          onPressed: (){
+            Navigator.pushNamed(context, newNoteRoute);
+          },
+           icon: const Icon(Icons.add),
+          ),
+
           PopupMenuButton<MenuAction>(
             onSelected: (value) async {
               switch (value) {

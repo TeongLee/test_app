@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:test_app/constants/routes.dart';
 import 'package:test_app/services/auth/auth_service.dart';
 import 'package:test_app/views/login_view.dart';
-import 'package:test_app/views/notes_view.dart';
+import 'package:test_app/views/notes/new_note_view.dart';
+import 'package:test_app/views/notes/notes_view.dart';
 import 'package:test_app/views/register_view.dart';
 import 'package:test_app/views/verify_email_view.dart';
 // import 'dart:developer' as devtools show log;
@@ -22,7 +23,8 @@ void main() {
         loginRoute: (context) => const LoginView(),
         registerRoute : (context) => const RegisterView(),
         notesRoutes : (context) => const NotesView(),
-        verifyEmailRoutes : (context) => const VerifyEmailView()
+        verifyEmailRoutes : (context) => const VerifyEmailView(),
+        newNoteRoute : (context) => const NewNoteView(),
       },
     ),);
 }
