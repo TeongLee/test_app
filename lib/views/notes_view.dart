@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:test_app/constants/routes.dart';
 import 'package:test_app/enums/menu_action.dart';
 import 'package:test_app/services/auth/auth_service.dart';
+import 'package:test_app/services/crud/notes_service.dart';
 
 
 // To create the Main UI of the application
@@ -13,6 +14,28 @@ class NotesView extends StatefulWidget {
 }
 
 class _NotesViewState extends State<NotesView> {
+
+  late final NotesService _notesService;
+  // the '!' - null assertion operator means that you are very sure that the nullable variable is not null at here
+  String get userEmail => AuthService.firebase().currentUser!.email!;  
+
+  //open the database
+  @override
+  void initState(){
+    _notesService = NotesService();
+    // _notesService.open(); 
+    super.initState();
+  }
+
+  //close the database when dispose
+  @override
+  void dispose(){
+    _notesService = NotesService();
+    _notesService.close();
+    super.dispose();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +65,33 @@ class _NotesViewState extends State<NotesView> {
           ),
         ],
       ),
-      body: const Text('Hello World'),
+      body: FutureBuilder(
+        future: _notesService.getOrCreateUser(email: userEmail), 
+
+        builder: (context,snapshot) {
+          switch(snapshot.connectionState){
+            case ConnectionState.done:
+              return StreamBuilder(stream: _notesService.allNotes, 
+              builder:  (context,snapshot){
+                switch(snapshot.connectionState){
+                  case ConnectionState.waiting:
+                    return const Text('Waiting for all notes....');
+                  // case ConnectionState.done:
+                  //   // TODO: Handle this case.
+                  default:
+                    return CircularProgressIndicator();
+                }
+              }
+              );
+            default:
+              return const CircularProgressIndicator();
+          }
+
+
+          
+        }, 
+        
+      )
     );
   }
 }

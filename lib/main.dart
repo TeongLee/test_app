@@ -91,7 +91,7 @@ class HomePage extends StatelessWidget {
 ////////////////////////////////////////////
 //Stream
 // Stream<String> getName() {
-//   // return Stream.value('Ali');
+//   return Stream.value('Ali');
 //   return Stream.periodic(const Duration(seconds: 1),(value)=>'Foo');
 // }
 
