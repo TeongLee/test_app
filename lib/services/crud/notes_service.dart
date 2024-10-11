@@ -265,6 +265,7 @@ class DatabaseUser {
     required this.email,
   });
 
+  //Named constructor
   DatabaseUser.fromRow(Map<String, Object?> map)
       : id = map[idColumn] as int,
         email = map[emailColumn] as String;
@@ -292,6 +293,8 @@ class DatabaseNote {
     required this.isSyncedWithCloud,
   });
 
+
+  //Named constructor
   DatabaseNote.fromRow(Map<String, Object?> map)
       : id = map[idColumn] as int,
         userId = map[userIdColumn] as int,
